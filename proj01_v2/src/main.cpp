@@ -8,7 +8,7 @@ void initTriangle()
     GLfloat verts[] = {
         0.0f, 1.0f,
         -1.0f, -1.0f,
-        1.0f, -1.0f
+        1.0f, 0.0f
     };
 
     // create vertex buffer
@@ -24,7 +24,7 @@ void initTriangle()
 
 void drawTriangle()
 {
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glColor3f(0.0f, 1.0f, 1.0f);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
