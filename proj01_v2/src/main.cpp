@@ -1,4 +1,6 @@
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
@@ -24,12 +26,17 @@ void initTriangle()
 
 void drawTriangle()
 {
-    glColor3f(0.0f, 1.0f, 1.0f);
+    glColor3f(1.0f, 1.0f, 1.0f);
     glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
+
 int main()
 {
+    srand(static_cast<unsigned>(time(0))); // Seed the random number generator
+    int randomNumber = rand();            // Generate a random number
+    std::cout << "Random Number: " << randomNumber << std::endl;
+    return 0;
     GLFWwindow *window;
 
     // GLFW init
