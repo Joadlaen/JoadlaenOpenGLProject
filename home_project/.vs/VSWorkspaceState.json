@@ -7,8 +7,9 @@
   },
   "ExpandedNodes": [
     "",
+    "\\CMake",
     "\\src"
   ],
-  "SelectedNode": "\\src\\main.cpp",
+  "SelectedNode": "\\CMake\\Findglfw3.cmake",
   "PreviewInSolutionExplorer": false
 }
