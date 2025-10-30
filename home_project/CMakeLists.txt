@@ -11,10 +11,19 @@ find_package(glfw3 REQUIRED)
 
 
 # adding source files to our exectuable programs
-add_executable(run01 src/main.cpp src/glad.c)
+add_executable(run01 src/main.cpp src/glad.c "src/shader.cpp")
 
 # specify include directories
 target_include_directories(run01 PRIVATE include)
 
 # specify library directories
 target_link_libraries(run01 ${GLFW3_LIBRARY} OpenGL::GL)
+
+# copy shaders
+add_custom_target(CopyShaders ALL
+	COMMAND ${CMAKE_COMMAND} -E copy_directory
+	"${CMAKE_CURRENT_SOURCE_DIR}/shaders"
+	"${CMAKE_CURRENT_BINARY_DIR}/shaders"
+)
+
+add_dependencies(run01 CopyShaders)

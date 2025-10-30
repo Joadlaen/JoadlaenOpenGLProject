@@ -8,8 +8,9 @@
   "ExpandedNodes": [
     "",
     "\\CMake",
+    "\\shaders",
     "\\src"
   ],
-  "SelectedNode": "\\CMake\\Findglfw3.cmake",
+  "SelectedNode": "\\shaders\\colour.vert",
   "PreviewInSolutionExplorer": false
 }

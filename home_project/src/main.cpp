@@ -2,6 +2,7 @@
 #include "glad/glad.h"
 #include <GLFW/glfw3.h>
 
+
 void initTriangle()
 {
     //GLfloat verts[] = {
@@ -22,23 +23,34 @@ void initTriangle()
     //GLuint indices[] = { 0, 1, 2, 2, 3, 0 };
 
         // two triangles : vertex data
+    //GLfloat verts[] = {
+    //    -1.0f, 1.0f,  0.0f,// v0
+    //    -1.0f, -1.0f, 0.0f,// v1
+    //    1.0f, -1.0f,  0.0f, // v2
+    //    1.0f, 1.0f,   0.0f,// v3
+    //};
+        // vertex data with RGB colour components
     GLfloat verts[] = {
-        -1.0f, 1.0f,  0.0f,// v0
-        -1.0f, -1.0f, 0.0f,// v1
+        -1.0f, 1.0f,  0.0f, // v0
+        0.0f, 1.0f,  0.0f,  // v0 colour green
+        -1.0f, -1.0f, 0.0f, // v1
+        0.0f, 0.0f, 0.0f,   // v1 colour black
         1.0f, -1.0f,  0.0f, // v2
-        1.0f, 1.0f,   0.0f,// v3
+        1.0f, 0.0f,  0.0f,  // v2 colour red
+        1.0f, 1.0f,   0.0f, // v3
+        1.0f, 1.0f,   0.0f, // v3 colour yellow
     };
 
     // indices of two triangles
     GLuint indices[] = { 0, 1, 2, 2, 3, 0 };
 
-    /*GLuint bufID;
-    glGenBuffers(1, &bufID);
-    glBindBuffer(GL_ARRAY_BUFFER, bufID);
+    GLuint vertbufID;
+    glGenBuffers(1, &vertbufID);
+    glBindBuffer(GL_ARRAY_BUFFER, vertbufID);
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);*/
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
     // create index buffer
     GLuint idxBufID;
@@ -51,9 +63,13 @@ void initTriangle()
 
 void drawTriangle()
 {
-    glColor3f(1.0f, 0.0f, 0.0f);
+    glColor3f(1.0f, 1.0f, 0.0f);
     // glDrawArrays(GL_TRIANGLES, 0, 6);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+
+    //wireframe
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 
@@ -81,7 +97,7 @@ int main()
     initTriangle();
 
     // setting the background colour, you can change the value
-    glClearColor(0.25f, 0.5f, 0.75f, 1.0f);
+    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 
     // setting the event loop
     while (!glfwWindowShouldClose(window))
