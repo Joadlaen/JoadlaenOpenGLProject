@@ -3,6 +3,18 @@
 #include <GLFW/glfw3.h>
 
 
+#include "shader.h"
+
+static Shader shader;
+
+void initShader(std::string pathVert, std::string pathFrag)
+{
+    shader.read_source(pathVert.c_str(), pathFrag.c_str());
+
+    shader.compile();
+    glUseProgram(shader.program);
+}
+
 void initTriangle()
 {
     //GLfloat verts[] = {
@@ -23,13 +35,16 @@ void initTriangle()
     //GLuint indices[] = { 0, 1, 2, 2, 3, 0 };
 
         // two triangles : vertex data
+    
     //GLfloat verts[] = {
     //    -1.0f, 1.0f,  0.0f,// v0
     //    -1.0f, -1.0f, 0.0f,// v1
     //    1.0f, -1.0f,  0.0f, // v2
     //    1.0f, 1.0f,   0.0f,// v3
     //};
+    
         // vertex data with RGB colour components
+    
     GLfloat verts[] = {
         -1.0f, 1.0f,  0.0f, // v0
         0.0f, 1.0f,  0.0f,  // v0 colour green
@@ -40,6 +55,7 @@ void initTriangle()
         1.0f, 1.0f,   0.0f, // v3
         1.0f, 1.0f,   0.0f, // v3 colour yellow
     };
+    
 
     // indices of two triangles
     GLuint indices[] = { 0, 1, 2, 2, 3, 0 };
@@ -49,8 +65,13 @@ void initTriangle()
     glBindBuffer(GL_ARRAY_BUFFER, vertbufID);
 
     glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    
+    // set colour attributes
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));
 
     // create index buffer
     GLuint idxBufID;
@@ -63,6 +84,7 @@ void initTriangle()
 
 void drawTriangle()
 {
+
     glColor3f(1.0f, 1.0f, 0.0f);
     // glDrawArrays(GL_TRIANGLES, 0, 6);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
@@ -94,17 +116,22 @@ int main()
         return -1;
     }
 
+
     initTriangle();
 
+    initShader("shaders/colour.vert", "shaders/colour.frag");
+
+    glEnable(GL_DEPTH);
+
     // setting the background colour, you can change the value
-    glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+    glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
 
     // setting the event loop
     while (!glfwWindowShouldClose(window))
     {
         glfwPollEvents();
 
-        glClear(GL_COLOR_BUFFER_BIT);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         drawTriangle();
 

@@ -8,9 +8,10 @@
   "ExpandedNodes": [
     "",
     "\\CMake",
+    "\\include",
     "\\shaders",
     "\\src"
   ],
-  "SelectedNode": "\\shaders\\colour.vert",
+  "SelectedNode": "\\CMakeLists.txt",
   "PreviewInSolutionExplorer": false
 }
