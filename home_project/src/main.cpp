@@ -17,31 +17,6 @@ void initShader(std::string pathVert, std::string pathFrag)
 
 void initTriangle()
 {
-    //GLfloat verts[] = {
-    ////-1.0f, -1.0f, // v1
-    ////1.0f, -1.0f, // v2
-    ////0.0f, 1.0f, // v3
-
-    ////1.0f, -0.5f, // v2
-    ////1.0f, 1.0f, // v4
-    ////0.5f, 1.0f, // v3
-    //    -1.0f, 1.0f,  0.0f,// v0
-    //    -1.0f, -1.0f, 0.0f,// v1
-    //    1.0f, -1.0f,  0.0f, // v2
-    //    1.0f, 1.0f,   0.0f,// v3
-    //};
-
-    //// indices of two triangles
-    //GLuint indices[] = { 0, 1, 2, 2, 3, 0 };
-
-        // two triangles : vertex data
-    
-    //GLfloat verts[] = {
-    //    -1.0f, 1.0f,  0.0f,// v0
-    //    -1.0f, -1.0f, 0.0f,// v1
-    //    1.0f, -1.0f,  0.0f, // v2
-    //    1.0f, 1.0f,   0.0f,// v3
-    //};
     
         // vertex data with RGB colour components
     
@@ -67,7 +42,7 @@ void initTriangle()
     glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
     
     // set colour attributes
     glEnableVertexAttribArray(1);
@@ -105,7 +80,7 @@ int main()
         return -1;
     }
 
-    window = glfwCreateWindow(750, 400, "Azure Renderer", NULL, NULL);
+    window = glfwCreateWindow(640, 480, "Azure Renderer", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     // loading glad

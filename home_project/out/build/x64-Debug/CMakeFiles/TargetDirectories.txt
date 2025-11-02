@@ -1,4 +1,4 @@
-C:/temp/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/run01.dir
-C:/temp/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders.dir
-C:/temp/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/edit_cache.dir
-C:/temp/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/run01.dir
+C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders.dir
+C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
