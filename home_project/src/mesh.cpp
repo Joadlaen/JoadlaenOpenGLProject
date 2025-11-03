@@ -1,0 +1,131 @@
+#include <iostream>
+
+#include <glad/glad.h>
+
+#include "Mesh.h"
+
+#include <assimp/scene.h>
+#include <assimp/Importer.hpp>
+#include <assimp/postprocess.h>
+
+Mesh::Mesh()
+{
+
+}
+
+Mesh::~Mesh()
+{
+
+}
+
+void Mesh::init(std::string path, GLuint id)
+{
+    shaderId = id;
+    loadModel(path);
+    initBuffer();
+}
+
+void Mesh::loadModel(std::string path)
+{
+    Assimp::Importer importer;
+    const aiScene* scene = importer.ReadFile(path, aiProcess_CalcTangentSpace);
+    if (NULL != scene) {
+        std::cout << "load model successful" << std::endl;
+    }
+    else {
+        std::cout << "load model failed" << std::endl;
+    }
+
+    // mNumMeshes should > 0
+    //std::cout << scene->mNumMeshes << std::endl;
+
+    for (int i = 0; i < scene->mNumMeshes; i++)
+    {
+        aiMesh* mesh = scene->mMeshes[i];
+    
+
+    // read vertex position and normals
+    int nVertex = mesh->mNumVertices;
+    for (int j = 0; j < nVertex; j++)
+    {
+        glm::vec3 pos;
+        pos.x = mesh->mVertices[j].x;
+        pos.y = mesh->mVertices[j].y;
+        pos.z = mesh->mVertices[j].z;
+
+        glm::vec3 normal;
+        normal.x = mesh->mNormals[j].x;
+        normal.y = mesh->mNormals[j].y;
+        normal.z = mesh->mNormals[j].z;
+
+        vertices.push_back(normal);
+    }
+
+    int nFaces = mesh->mNumFaces;
+    for (int j = 0; j < nFaces; j++)
+    {
+        const aiFace& face = mesh->mFaces[j];
+        for (int k = 0; k < 3; k++)
+        {
+            indices.push_back(face.mIndices[k]);
+        }
+    }
+    }
+}
+
+void Mesh::initBuffer()
+{
+    GLuint vao;
+    glGenVertexArrays(1, &vao);
+    GLuint vertBufID;
+    glGenBuffers(1, &vertBufID);
+    glBindBuffer(GL_ARRAY_BUFFER, vertBufID);
+    glBindVertexArray(vao);
+    buffers.push_back(vao);
+
+    // set buffer data to triangle vertex and setting vertex attributes
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
+
+    // set normal attributes
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));
+
+    // bind index buffer
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertBufID);
+
+    buffers.push_back(vertBufID);
+
+    // set buffer data for triangle index
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+}
+
+// all drawings come here
+void Mesh::draw(glm::mat4 mat)
+{
+
+    // 1. Bind the correct shader program
+    glUseProgram(shaderId);
+
+    // 2. Set the appropriate uniforms for each shader
+    // set transforms
+    glm::mat4 mat_modelview = mat;
+
+    GLuint modelview_loc = glGetUniformLocation(shaderId, "modelview");
+    glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &mat_modelview[0][0]);
+
+    // you must set the projection to get correct rendering with depth
+    // we use the default orthographic projection.
+    // As projection is shared by all models in a scene
+    // This will be moved out in the future.
+    glm::mat4 mat_projection = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, -2.0f, 2.0f);
+    GLuint projection_loc = glGetUniformLocation(shaderId, "projection");
+    glUniformMatrix4fv(projection_loc, 1, GL_FALSE, &mat_projection[0][0]);
+
+    // 3. Bind the corresponding model's VAO
+    glBindVertexArray(buffers[0]);
+
+    // 4. Draw the model
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+}

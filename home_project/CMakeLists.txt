@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.26.0)
-project(proj01 VERSION 1.0.0)
+project(home_project VERSION 1.0.0)
 cmake_policy(SET CMP0072 NEW)
 
 # place for finding Findglfw3.cmake
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/CMake)
 
 
 # external opengl related libraries 
@@ -15,7 +15,7 @@ find_package(glfw3 REQUIRED)
 # Note: it is not a good practice to put glad.c in the src folder
 # Ideally, it should be put under external/ and used as an external library
 # to avoid unnecessary compiling
-add_executable(run01 src/main.cpp src/glad.c src/shader.cpp)
+add_executable(run01 src/main.cpp src/glad.c src/shader.cpp src/Mesh.cpp src/Node.cpp "src/mesh.cpp" "include/mesh.h" "include/node.h" "src/node.cpp")
 
 # specify include directories
 target_include_directories(run01 PRIVATE include)
@@ -24,7 +24,7 @@ target_include_directories(run01 PRIVATE include)
 # a hardcoded solution for assimp, only works on Windows
 # Ideally, we should find one workable Findassimp.cmake, and use find_package(assimp)
 FIND_LIBRARY(ASSIMP_LIBRARY NAMES assimp-vc143-mt
-PATHS external/assimp/lib )
+PATHS External/assimp/lib )
 
 # for debugging
 # message(ASSIMP_LIB="${ASSIMP_LIBRARY}")

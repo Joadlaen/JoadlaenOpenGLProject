@@ -10,6 +10,8 @@
 
 
 #include "shader.h"
+#include "mesh.h"
+#include "node.h"
 
 static Shader shader;
 
@@ -55,6 +57,7 @@ void initShader(std::string pathVert, std::string pathFrag)
     glUseProgram(shader.program);
 }
 
+/*
 void initTriangle()
 {
     
@@ -127,6 +130,7 @@ void initTriangle()
 
 }
 
+
 void drawTriangle()
 {
 
@@ -136,9 +140,9 @@ void drawTriangle()
 
 
     //wireframe
-    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
-
+*/
 
 int main()
 {
@@ -167,8 +171,11 @@ int main()
     // for both VSCode and Visual Studio
     initShader("shaders/colour.vert", "shaders/colour.frag");
 
+    std::shared_ptr<Mesh> pMesh = std::make_shared<Mesh>();
+    pMesh->init("models/teapot.obj", shader.program);
 
-    initTriangle();
+    //initTriangle();
+
 
 
     glEnable(GL_DEPTH);
@@ -185,7 +192,7 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        drawTriangle();
+        //drawTriangle();
 
 
         glfwSwapBuffers(window);
