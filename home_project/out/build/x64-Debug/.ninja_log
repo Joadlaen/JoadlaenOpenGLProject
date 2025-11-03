@@ -1,54 +1,46 @@
 # ninja log v6
 14	32	7838269372875295	clean	8c45b54705a541e8
-24	95	7838269373344079	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-24	95	7838269373344079	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-96	1023	7838269374126638	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-110	1037	7838269374282886	CMakeFiles/run01.dir/src/shader.cpp.obj	d45cddeb68ffde51
-103	1868	7838269374282886	CMakeFiles/run01.dir/src/glad.c.obj	c0ab75a6ce80ee00
-1869	2745	7838269391940057	run01.exe	40e49a027d0f7d87
-38	85	7838269560471102	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-38	85	7838269560471102	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-17	66	7838273191120326	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-17	66	7838273191120326	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-66	827	7838273191654221	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-828	1516	7838273199294009	run01.exe	40e49a027d0f7d87
-43	88	7838273436957850	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-43	88	7838273436957850	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-88	907	7838273437426668	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-907	1731	7838273445550494	run01.exe	40e49a027d0f7d87
-58	102	7838274740540239	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-58	102	7838274740540239	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-103	902	7838274740969851	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-903	1563	7838274748987700	run01.exe	40e49a027d0f7d87
-43	90	7838275060076601	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-43	90	7838275060076601	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-90	856	7838275060426833	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-857	1948	7838275068224117	run01.exe	40e49a027d0f7d87
-96	140	7838277694742236	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-96	140	7838277694742236	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-141	976	7838277695210978	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-977	1419	7838277703610338	run01.exe	40e49a027d0f7d87
-39	84	7838277902091805	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-39	84	7838277902091805	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-85	888	7838277902623183	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-889	1584	7838277910686536	run01.exe	40e49a027d0f7d87
-52	98	7838278189116196	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-52	98	7838278189116196	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-99	886	7838278189584972	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-887	1470	7838278197499218	run01.exe	40e49a027d0f7d87
-40	86	7838278665102336	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-40	86	7838278665102336	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-87	884	7838278665571108	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-885	1407	7838278673581947	run01.exe	40e49a027d0f7d87
-53	187	7838279715281259	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-53	187	7838279715281259	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-188	937	7838279716653377	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-938	1631	7838279724066723	run01.exe	40e49a027d0f7d87
-45	90	7838281970389673	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-45	90	7838281970389673	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
-91	829	7838281970858449	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
-830	1422	7838281978254804	run01.exe	40e49a027d0f7d87
 116	220	7838294942870140	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
 116	220	7838294942870140	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
 221	1229	7838294944059155	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
+103	1868	7838269374282886	CMakeFiles/run01.dir/src/glad.c.obj	c0ab75a6ce80ee00
+110	1037	7838269374282886	CMakeFiles/run01.dir/src/shader.cpp.obj	d45cddeb68ffde51
 1230	1708	7838294954082372	run01.exe	40e49a027d0f7d87
+37	94	7838309915569687	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+37	94	7838309915569687	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+95	1615	7838309916058492	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
+1618	2860	7838309931368860	run01.exe	40e49a027d0f7d87
+120	178	7838319624703798	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+120	178	7838319624703798	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+36	121	7838321132319543	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+36	121	7838321132319543	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+31	75	7838321612859140	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+31	75	7838321612859140	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+35	80	7838326330340576	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+35	80	7838326330340576	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+81	1689	7838326330871761	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
+1690	2055	7838326346898300	run01.exe	40e49a027d0f7d87
+44	88	7838327582310203	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+44	88	7838327582310203	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+42	87	7838328295868165	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+42	87	7838328295868165	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+28	74	7838328482745734	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+28	74	7838328482745734	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+75	2220	7838328483102295	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
+2221	5188	7838328504648791	run01.exe	40e49a027d0f7d87
+138	183	7838329349832784	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+138	183	7838329349832784	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+184	1349	7838329350288093	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
+1350	1864	7838329361886441	run01.exe	40e49a027d0f7d87
+48	101	7838329854761508	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+48	101	7838329854761508	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+101	1311	7838329855296870	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
+1312	1728	7838329867394951	run01.exe	40e49a027d0f7d87
+60	109	7838331773112946	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+60	109	7838331773112946	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+110	1431	7838331773581715	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
+1432	1843	7838331786898069	run01.exe	40e49a027d0f7d87
+110	154	7838332915436181	CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+110	154	7838332915436181	C:/Users/Michael/Documents/(jack's stuff) university/games tech/JoadlaenOpenGLProject/home_project/out/build/x64-Debug/CMakeFiles/CopyShaders	9b0bbd63c9c7bbd9
+155	1434	7838332915861464	CMakeFiles/run01.dir/src/main.cpp.obj	688119636e1bda15
+1435	1909	7838332928686104	run01.exe	40e49a027d0f7d87

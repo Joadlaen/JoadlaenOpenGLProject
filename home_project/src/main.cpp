@@ -3,6 +3,12 @@
 #include <GLFW/glfw3.h>
 
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+
+
 #include "shader.h"
 
 static Shader shader;
@@ -55,6 +61,18 @@ void initTriangle()
 
     // set buffer data for triangle index
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+    glm::mat4 mat_scale = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
+    glm::mat4 mat_trans = glm::translate(glm::vec3(0.3f, 0.2f, 0.0f));
+    glm::mat4 mat_rot = glm::rotate(glm::radians(60.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    // the order matters
+    glm::mat4 mat_modelview = mat_trans * mat_rot * mat_scale; 
+
+    GLuint modelview_loc = glGetUniformLocation(shader.program, "modelview");
+    glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &mat_modelview[0][0]);
+
+
 }
 
 void drawTriangle()
@@ -80,7 +98,7 @@ int main()
         return -1;
     }
 
-    window = glfwCreateWindow(640, 480, "Azure Renderer", NULL, NULL);
+    window = glfwCreateWindow(640, 640, "Azure Renderer", NULL, NULL);
     glfwMakeContextCurrent(window);
 
     // loading glad
@@ -91,10 +109,10 @@ int main()
         return -1;
     }
 
+    initShader("shaders/colour.vert", "shaders/colour.frag");
 
     initTriangle();
 
-    initShader("shaders/colour.vert", "shaders/colour.frag");
 
     glEnable(GL_DEPTH);
 
