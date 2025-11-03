@@ -13,6 +13,40 @@
 
 static Shader shader;
 
+float rot_x = 0;
+float rot_y = 0;
+
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_LEFT) 
+    {
+        rot_y -= 5.0;
+    }
+    else if (key == GLFW_KEY_RIGHT /*&& action == GLFW_PRESS*/) 
+    {
+        rot_y += 5.0;
+    } 
+    if (key == GLFW_KEY_DOWN) 
+    {
+        rot_x += 5.0;
+    }
+    else if (key == GLFW_KEY_UP) 
+    {
+        rot_x -= 5.0;
+    }
+
+
+    glm::mat4 mat_scale = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
+    glm::mat4 mat_rot_y = glm::rotate(glm::radians(rot_y), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 mat_rot_x = glm::rotate(glm::radians(rot_x), glm::vec3(1.0f, 0.0f, 0.0f));
+
+    glm::mat4 mat_modelview = mat_rot_x * mat_rot_y * mat_scale;
+
+    GLuint modelview_loc = glGetUniformLocation(shader.program, "modelview");
+    glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &mat_modelview[0][0]);
+}
+
 void initShader(std::string pathVert, std::string pathFrag)
 {
     shader.read_source(pathVert.c_str(), pathFrag.c_str());
@@ -24,22 +58,38 @@ void initShader(std::string pathVert, std::string pathFrag)
 void initTriangle()
 {
     
-        // vertex data with RGB colour components
     
+    // cube vertex data with RGB colour components
     GLfloat verts[] = {
-        -1.0f, 1.0f,  0.0f, // v0
+        -1.0f, 1.0f,  1.0f, // v0
         0.0f, 1.0f,  0.0f,  // v0 colour green
-        -1.0f, -1.0f, 0.0f, // v1
+        -1.0f, -1.0f, 1.0f, // v1
         0.0f, 0.0f, 0.0f,   // v1 colour black
-        1.0f, -1.0f,  0.0f, // v2
+        1.0f, -1.0f,  1.0f, // v2
         1.0f, 0.0f,  0.0f,  // v2 colour red
-        1.0f, 1.0f,   0.0f, // v3
+        1.0f, 1.0f,   1.0f, // v3
         1.0f, 1.0f,   0.0f, // v3 colour yellow
-    };
-    
 
-    // indices of two triangles
-    GLuint indices[] = { 0, 1, 2, 2, 3, 0 };
+        -1.0f, 1.0f, -1.0f, // v4
+        0.0f, 1.0f,  1.0f,  // v4 colour cyan
+        -1.0f, -1.0f, -1.0f, // v5
+        0.0f, 0.0f, 1.0f,   // v5 colour blue
+        1.0f, -1.0f,  -1.0f, // v6
+        1.0f, 0.0f,  1.0f,  // v6 colour magenta
+        1.0f, 1.0f,  -1.0f, // v7
+        1.0f, 1.0f,  1.0f, // v7 colour white
+    };
+
+    // indices of 12 triangles of a cube
+    GLuint indices[] = {
+        0, 1, 2,  0, 2, 3,
+        1, 5, 2,  5, 6, 2,
+        0, 3, 4,  4, 3, 7,
+        3, 2, 7,  2, 6, 7,
+        1, 0, 4,  1, 4, 5,
+        7, 6, 4,  4, 6, 5
+    };
+
 
     GLuint vertbufID;
     glGenBuffers(1, &vertbufID);
@@ -63,14 +113,16 @@ void initTriangle()
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
     glm::mat4 mat_scale = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
-    glm::mat4 mat_trans = glm::translate(glm::vec3(0.3f, 0.2f, 0.0f));
-    glm::mat4 mat_rot = glm::rotate(glm::radians(60.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    glm::mat4 mat_projection = glm::ortho(-1.0f, 1.0f, -1.0f, 1.0f, -1.0f, 1.0f);
 
-    // the order matters
-    glm::mat4 mat_modelview = mat_trans * mat_rot * mat_scale; 
+    glm::mat4 mat_modelview = mat_scale;
 
     GLuint modelview_loc = glGetUniformLocation(shader.program, "modelview");
     glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &mat_modelview[0][0]);
+
+    // you must set the orthographic projection to get correct rendering with depth
+    GLuint projection_loc = glGetUniformLocation(shader.program, "projection");
+    glUniformMatrix4fv(projection_loc, 1, GL_FALSE, &mat_projection[0][0]);
 
 
 }
@@ -79,8 +131,8 @@ void drawTriangle()
 {
 
     glColor3f(1.0f, 1.0f, 0.0f);
-    // glDrawArrays(GL_TRIANGLES, 0, 6);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    // draw triangle using indices
+    glDrawElements(GL_TRIANGLES, 12 * 3, GL_UNSIGNED_INT, 0);
 
 
     //wireframe
@@ -101,6 +153,9 @@ int main()
     window = glfwCreateWindow(640, 640, "Azure Renderer", NULL, NULL);
     glfwMakeContextCurrent(window);
 
+    // register the key event callback function
+    glfwSetKeyCallback(window, key_callback);
+
     // loading glad
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
     {
@@ -117,7 +172,9 @@ int main()
     glEnable(GL_DEPTH);
 
     // setting the background colour, you can change the value
-    glClearColor(0.0f, 0.0f, 1.0f, 1.0f);
+    glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+
+    glEnable(GL_DEPTH_TEST);
 
     // setting the event loop
     while (!glfwWindowShouldClose(window))
