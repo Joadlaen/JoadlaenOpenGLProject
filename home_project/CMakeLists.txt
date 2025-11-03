@@ -18,9 +18,7 @@ find_package(glfw3 REQUIRED)
 add_executable(run01 src/main.cpp src/glad.c src/shader.cpp)
 
 # specify include directories
-target_include_directories(run01 PRIVATE 
-	include
-	)
+target_include_directories(run01 PRIVATE include)
 
 
 # a hardcoded solution for assimp, only works on Windows

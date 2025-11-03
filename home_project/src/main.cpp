@@ -164,7 +164,9 @@ int main()
         return -1;
     }
 
+    // for both VSCode and Visual Studio
     initShader("shaders/colour.vert", "shaders/colour.frag");
+
 
     initTriangle();
 
