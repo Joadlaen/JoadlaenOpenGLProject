@@ -1,5 +1,0 @@
-# ninja log v6
-39	69	7844782047470738	clean	f0f5f51147a42027
-41	285	7844782048409008	CMakeFiles/run01.dir/src/glad.c.obj	dc308590fbd0d349
-17	437	7844782048167360	CMakeFiles/run01.dir/src/main.cpp.obj	471366de2d651848
-62	362	7844782048613380	CMakeFiles/run01.dir/src/shader.cpp.obj	7dd36fc77599e39b

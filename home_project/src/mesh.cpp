@@ -52,6 +52,7 @@ void Mesh::loadModel(std::string path)
         pos.x = mesh->mVertices[j].x;
         pos.y = mesh->mVertices[j].y;
         pos.z = mesh->mVertices[j].z;
+        vertices.push_back(pos);
 
         glm::vec3 normal;
         normal.x = mesh->mNormals[j].x;
@@ -92,13 +93,19 @@ void Mesh::initBuffer()
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void*)(sizeof(float) * 3));
 
+    // create index buffer
+    GLuint idxBufID;
+    glGenBuffers(1, &idxBufID);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBufID);
     // bind index buffer
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertBufID);
+    //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vertBufID);
 
-    buffers.push_back(vertBufID);
+    buffers.push_back(idxBufID);
 
     // set buffer data for triangle index
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+
+    glBindVertexArray(0);
 }
 
 // all drawings come here

@@ -11,10 +11,11 @@
 
 #include "shader.h"
 #include "mesh.h"
-#include "node.h"
+#include "Node.h"
 
 static Shader shader;
 
+glm::mat4 matRoot = glm::mat4(1.0);
 float rot_x = 0;
 float rot_y = 0;
 
@@ -43,10 +44,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     glm::mat4 mat_rot_y = glm::rotate(glm::radians(rot_y), glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 mat_rot_x = glm::rotate(glm::radians(rot_x), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    glm::mat4 mat_modelview = mat_rot_x * mat_rot_y * mat_scale;
+    //glm::mat4 mat_modelview = mat_rot_x * mat_rot_y * mat_scale;
+    matRoot = mat_rot_x*mat_rot_y;
 
     GLuint modelview_loc = glGetUniformLocation(shader.program, "modelview");
-    glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &mat_modelview[0][0]);
+    glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &matRoot[0][0]);
 }
 
 void initShader(std::string pathVert, std::string pathFrag)
@@ -56,6 +58,8 @@ void initShader(std::string pathVert, std::string pathFrag)
     shader.compile();
     glUseProgram(shader.program);
 }
+
+
 
 /*
 void initTriangle()
@@ -171,8 +175,25 @@ int main()
     // for both VSCode and Visual Studio
     initShader("shaders/colour.vert", "shaders/colour.frag");
 
-    std::shared_ptr<Mesh> pMesh = std::make_shared<Mesh>();
-    pMesh->init("models/teapot.obj", shader.program);
+    // Meshes
+    std::shared_ptr<Mesh> cube = std::make_shared<Mesh>();
+    cube->init("models/cube.obj", shader.program);
+
+    std::shared_ptr<Mesh> teapot = std::make_shared<Mesh>();
+    teapot->init("models/teapot.obj", shader.program);
+
+    //Nodes
+    std::shared_ptr<Node> scene = std::make_shared<Node>();
+    std::shared_ptr<Node> teapotNode = std::make_shared<Node>();
+    std::shared_ptr<Node> cubeNode = std::make_shared<Node>();
+
+    // Build the tree
+    teapotNode->addMesh(teapot);
+    cubeNode->addMesh(cube);
+    cubeNode->addChild(teapotNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)));
+
+    // Add the tree to the world space
+    scene->addChild(cubeNode);
 
     //initTriangle();
 
@@ -182,6 +203,7 @@ int main()
 
     // setting the background colour, you can change the value
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -192,8 +214,7 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //drawTriangle();
-
+        scene->draw(matRoot);
 
         glfwSwapBuffers(window);
     }
