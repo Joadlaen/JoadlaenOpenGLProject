@@ -45,7 +45,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     glm::mat4 mat_rot_x = glm::rotate(glm::radians(rot_x), glm::vec3(1.0f, 0.0f, 0.0f));
 
     //glm::mat4 mat_modelview = mat_rot_x * mat_rot_y * mat_scale;
-    matRoot = mat_rot_x*mat_rot_y;
+    matRoot = mat_rot_x*mat_rot_y*mat_scale;
 
     GLuint modelview_loc = glGetUniformLocation(shader.program, "modelview");
     glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &matRoot[0][0]);
@@ -182,15 +182,39 @@ int main()
     std::shared_ptr<Mesh> teapot = std::make_shared<Mesh>();
     teapot->init("models/teapot.obj", shader.program);
 
+    std::shared_ptr<Mesh> skull = std::make_shared<Mesh>();
+    skull->init("models/12140_Skull_v3_L2.obj", shader.program);
+
+
+
     //Nodes
     std::shared_ptr<Node> scene = std::make_shared<Node>();
     std::shared_ptr<Node> teapotNode = std::make_shared<Node>();
+    std::shared_ptr<Node> teapotNode2 = std::make_shared<Node>();
+    std::shared_ptr<Node> teapotNode3 = std::make_shared<Node>();
     std::shared_ptr<Node> cubeNode = std::make_shared<Node>();
+    std::shared_ptr<Node> cubeNode2 = std::make_shared<Node>();
+    std::shared_ptr<Node> cubeNode3 = std::make_shared<Node>();
+    std::shared_ptr<Node> skullNode = std::make_shared<Node>();
+
+
 
     // Build the tree
     teapotNode->addMesh(teapot);
+    teapotNode2->addMesh(teapot);
+    teapotNode3->addMesh(teapot);
     cubeNode->addMesh(cube);
-    cubeNode->addChild(teapotNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)));
+    cubeNode2->addMesh(cube);
+    cubeNode3->addMesh(cube);
+    skullNode->addMesh(skull);
+
+
+
+    cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(skullNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(cubeNode2, glm::translate(glm::vec3(2.0f, 0.0f, 0.0f)));
+    cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
 
     // Add the tree to the world space
     scene->addChild(cubeNode);
