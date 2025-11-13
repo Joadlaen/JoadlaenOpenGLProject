@@ -210,11 +210,10 @@ int main()
 
 
 
-    cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(skullNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(cubeNode2, glm::translate(glm::vec3(2.0f, 0.0f, 0.0f)));
-    cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
+    //cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
+    //cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(skullNode, glm::translate(glm::vec3(0.0f, 3.0f, 0.0f)) * glm::scale(glm::vec3(0.15f, 0.15f, 0.15f)) * glm::rotate(glm::radians(0.5f), glm::vec3(0, 0, 1)));
+    //cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
 
     // Add the tree to the world space
     scene->addChild(cubeNode);
