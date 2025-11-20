@@ -15,12 +15,16 @@
 
 static Shader shader;
 
+glm::mat4 matModelRoot = glm::mat4(1.0);
+glm::mat4 matView = glm::mat4(1.0);
+glm::mat4 matProj = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, -2.0f, 2.0f);
+
 glm::mat4 matRoot = glm::mat4(1.0);
 float rot_x = 0;
 float rot_y = 0;
 
 
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int modes)
 {
     if (key == GLFW_KEY_LEFT) 
     {
@@ -39,6 +43,39 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         rot_x -= 5.0;
     }
 
+
+
+    if (action == GLFW_PRESS)
+    {
+
+        if (GLFW_KEY_LEFT == key)
+        {
+            // TODO: pan left, rotate around Y, CCW
+        }
+        else if (GLFW_KEY_RIGHT == key)
+        {
+            // TODO: pan right, rotate around Y, CW
+        }
+        else if (GLFW_KEY_UP == key)
+        {
+            // TODO: tilt up, rotate around X, CCW
+        } if (GLFW_KEY_DOWN == key)
+        {
+            // TODO: tilt down, rotate around X, CW
+        }
+        else if ((GLFW_KEY_KP_ADD == key) || (GLFW_KEY_EQUAL == key) && (modes & GLFW_MOD_SHIFT))
+        {
+            // TODO: zoom in, move along -Z
+        }
+        else if ((GLFW_KEY_KP_SUBTRACT == key) || (GLFW_KEY_MINUS == key))
+        {
+            // TODO: zoom out, move along -Z
+        }
+        else if (GLFW_KEY_R == key)
+        {
+            // TODO: reset
+        }
+    }
 
     glm::mat4 mat_scale = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
     glm::mat4 mat_rot_y = glm::rotate(glm::radians(rot_y), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -175,6 +212,16 @@ int main()
     // for both VSCode and Visual Studio
     initShader("shaders/colour.vert", "shaders/colour.frag");
 
+    // you are expected to add lines similar to the two lines to create the view and projection matrix
+
+// set the eye at (0, 0, 5), looking at the centre of the world
+// try to change the eye position
+    matView = glm::lookAt(glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    // set the Y field of view angle to 60 degrees, width/height ratio to 1.0, and a near plane of 3.5, far plane of 6.5
+    // try to play with the FoV
+    matProj = glm::perspective(glm::radians(60.0f), 1.0f, 3.5f, 6.5f);
+
+
     // Meshes
     std::shared_ptr<Mesh> cube = std::make_shared<Mesh>();
     cube->init("models/cube.obj", shader.program);
@@ -210,10 +257,11 @@ int main()
 
 
 
-    //cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
-    //cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(skullNode, glm::translate(glm::vec3(0.0f, 3.0f, 0.0f)) * glm::scale(glm::vec3(0.15f, 0.15f, 0.15f)) * glm::rotate(glm::radians(0.5f), glm::vec3(0, 0, 1)));
-    //cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
+    cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(teapotNode3, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(cubeNode2, glm::translate(glm::vec3(2.0f, 0.0f, 0.0f)));
+    cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
 
     // Add the tree to the world space
     scene->addChild(cubeNode);
@@ -237,7 +285,7 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        scene->draw(matRoot);
+        scene->draw(matRoot, matView, matProj);
 
         glfwSwapBuffers(window);
     }
