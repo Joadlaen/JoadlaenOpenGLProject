@@ -209,6 +209,9 @@ int main()
         return -1;
     }
 
+
+
+
     // for both VSCode and Visual Studio
     initShader("shaders/colour.vert", "shaders/colour.frag");
 
@@ -219,7 +222,7 @@ int main()
     matView = glm::lookAt(glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
     // set the Y field of view angle to 60 degrees, width/height ratio to 1.0, and a near plane of 3.5, far plane of 6.5
     // try to play with the FoV
-    matProj = glm::perspective(glm::radians(60.0f), 1.0f, 3.5f, 6.5f);
+    matProj = glm::perspective(glm::radians(60.0f), 1.0f, 0.1f, 100.0f);
 
 
     // Meshes
@@ -230,7 +233,7 @@ int main()
     teapot->init("models/teapot.obj", shader.program);
 
     std::shared_ptr<Mesh> skull = std::make_shared<Mesh>();
-    skull->init("models/12140_Skull_v3_L2.obj", shader.program);
+    skull->init("models/planet.obj", shader.program);
 
 
 
@@ -257,11 +260,11 @@ int main()
 
 
 
-    cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(teapotNode3, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(cubeNode2, glm::translate(glm::vec3(2.0f, 0.0f, 0.0f)));
-    cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
+  //  cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
+//    cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(skullNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)), glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+    //cubeNode->addChild(cubeNode2, glm::translate(glm::vec3(2.0f, 0.0f, 0.0f)));
+    //cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
 
     // Add the tree to the world space
     scene->addChild(cubeNode);
@@ -270,11 +273,10 @@ int main()
 
 
 
-    glEnable(GL_DEPTH);
-
+    
     // setting the background colour, you can change the value
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glEnable(GL_DEPTH_TEST);
 
