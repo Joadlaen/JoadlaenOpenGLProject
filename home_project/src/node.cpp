@@ -12,7 +12,6 @@ void Node::addMesh(std::shared_ptr<Mesh> mesh, glm::mat4 trans, glm::mat4 rot, g
     meshMats.push_back(trans * rot * scale);
 }
 
-// all drawings go to Mesh::draw()
 void Node::draw(glm::mat4 matModel, glm::mat4 matView, glm::mat4 matProj)
 {
     //std::cout << "Node::draw()" << std::endl;

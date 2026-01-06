@@ -209,6 +209,9 @@ int main()
         return -1;
     }
 
+    glDisable(GL_CULL_FACE);
+
+
 
 
 
@@ -262,12 +265,12 @@ int main()
 
   //  cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
 //    cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(skullNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)), glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+   // cubeNode->addChild(skullNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)), glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
     //cubeNode->addChild(cubeNode2, glm::translate(glm::vec3(2.0f, 0.0f, 0.0f)));
     //cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
 
     // Add the tree to the world space
-    scene->addChild(cubeNode);
+    scene->addChild(skullNode, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
 
     //initTriangle();
 
@@ -276,7 +279,9 @@ int main()
     
     // setting the background colour, you can change the value
     glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    
+    //makew the models a wireframe
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     glEnable(GL_DEPTH_TEST);
 
