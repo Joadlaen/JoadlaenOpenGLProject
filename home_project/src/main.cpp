@@ -20,8 +20,14 @@ glm::mat4 matView = glm::mat4(1.0);
 glm::mat4 matProj = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, -2.0f, 2.0f);
 
 glm::mat4 matRoot = glm::mat4(1.0);
-float rot_x = 0;
-float rot_y = 0;
+//float rot_x = 0;
+//float rot_y = 0;
+
+glm::vec3 lightPos = glm::vec3(5.0f, 5.0f, 10.0f);
+glm::vec3 viewPos = glm::vec3(0.0f, 0.0f, 5.0f);
+
+GLuint blinnShader;
+GLuint phongShader;
 
 
 
@@ -103,12 +109,13 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &matRoot[0][0]);
 }
 
-void initShader(std::string pathVert, std::string pathFrag)
+GLuint initShader(std::string pathVert, std::string pathFrag)
 {
     shader.read_source(pathVert.c_str(), pathFrag.c_str());
 
     shader.compile();
     glUseProgram(shader.program);
+    return shader.program;
 }
 
 
@@ -202,6 +209,9 @@ void drawTriangle()
 
 int main()
 {
+    // homogeneous coordinate
+    gl_Position = projection * view * model * vec4(aPos, 1.0);
+
  GLFWwindow *window;
 
     // GLFW init
@@ -237,7 +247,7 @@ int main()
 
 // set the eye at (0, 0, 5), looking at the centre of the world
 // try to change the eye position
-    matView = glm::lookAt(glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    matView = glm::lookAt(ViewPos, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
     // set the Y field of view angle to 60 degrees, width/height ratio to 1.0, and a near plane of 3.5, far plane of 6.5
     // try to play with the FoV
     matProj = glm::perspective(glm::radians(60.0f), 1.0f, 0.1f, 100.0f);
