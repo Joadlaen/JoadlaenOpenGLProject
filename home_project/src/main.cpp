@@ -24,56 +24,71 @@ float rot_x = 0;
 float rot_y = 0;
 
 
+
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int modes)
 {
-    if (key == GLFW_KEY_LEFT) 
-    {
-        rot_y -= 5.0;
-    }
-    else if (key == GLFW_KEY_RIGHT /*&& action == GLFW_PRESS*/) 
-    {
-        rot_y += 5.0;
-    } 
-    if (key == GLFW_KEY_DOWN) 
-    {
-        rot_x += 5.0;
-    }
-    else if (key == GLFW_KEY_UP) 
-    {
-        rot_x -= 5.0;
-    }
+    glm::mat4 mat = glm::mat4(1.0);
+
+    float angleStep = 5.0f;
+    float transStep = 1.0f;
+
+    //if (key == GLFW_KEY_LEFT) 
+    //{
+    //    rot_y -= 5.0;
+    //}
+    //else if (key == GLFW_KEY_RIGHT /*&& action == GLFW_PRESS*/) 
+    //{
+    //    rot_y += 5.0;
+    //} 
+    //if (key == GLFW_KEY_DOWN) 
+    //{
+    //    rot_x += 5.0;
+    //}
+    //else if (key == GLFW_KEY_UP) 
+    //{
+    //    rot_x -= 5.0;
+    //}
 
 
 
     if (action == GLFW_PRESS)
     {
 
-        if (GLFW_KEY_LEFT == key)
-        {
-            // TODO: pan left, rotate around Y, CCW
+        if (GLFW_KEY_LEFT == key) {
+            // pan left, rotate around Y, CCW
+            mat = glm::rotate(glm::radians(-angleStep), glm::vec3(0.0, 1.0, 0.0));
+            matView = mat * matView;
         }
-        else if (GLFW_KEY_RIGHT == key)
-        {
-            // TODO: pan right, rotate around Y, CW
+        else if (GLFW_KEY_RIGHT == key) {
+            // pan right, rotate around Y, CW
+            mat = glm::rotate(glm::radians(angleStep), glm::vec3(0.0, 1.0, 0.0));
+            matView = mat * matView;
         }
-        else if (GLFW_KEY_UP == key)
-        {
-            // TODO: tilt up, rotate around X, CCW
-        } if (GLFW_KEY_DOWN == key)
-        {
-            // TODO: tilt down, rotate around X, CW
+        if (GLFW_KEY_UP == key) {
+            // tilt up, rotate around X, CCW
+            mat = glm::rotate(glm::radians(-angleStep), glm::vec3(1.0, 0.0, 0.0));
+            matView = mat * matView;
+        } if (GLFW_KEY_DOWN == key) {
+            // tilt down, rotate around X, CW
+            mat = glm::rotate(glm::radians(angleStep), glm::vec3(1.0, 0.0, 0.0));
+            matView = mat * matView;
         }
-        else if ((GLFW_KEY_KP_ADD == key) || (GLFW_KEY_EQUAL == key) && (modes & GLFW_MOD_SHIFT))
-        {
-            // TODO: zoom in, move along -Z
+        if ((GLFW_KEY_KP_ADD == key) ||
+            (GLFW_KEY_EQUAL == key) && (modes & GLFW_MOD_SHIFT)) {
+            // zoom in, move along -Z
+            mat = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, transStep));
+            matView = mat * matView;
         }
-        else if ((GLFW_KEY_KP_SUBTRACT == key) || (GLFW_KEY_MINUS == key))
-        {
-            // TODO: zoom out, move along -Z
+        else if ((GLFW_KEY_KP_SUBTRACT == key) || (GLFW_KEY_MINUS == key)) {
+            // std::cout << "keypad - pressed" << std::endl;
+            // zoom out, move along -Z
+            mat = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -transStep));
+            matView = mat * matView;
         }
-        else if (GLFW_KEY_R == key)
-        {
-            // TODO: reset
+        if (GLFW_KEY_R == key) {
+            // reset
+            matView = glm::lookAt(glm::vec3(0, 0, 5), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+            matModelRoot = glm::mat4(1.0f);
         }
     }
 
