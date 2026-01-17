@@ -13,18 +13,29 @@
 #include "mesh.h"
 #include "Node.h"
 
+//static Shader shader;
+//
+//glm::mat4 matModelRoot = glm::mat4(1.0);
+//glm::mat4 matView = glm::mat4(1.0);
+//glm::mat4 matProj = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, -2.0f, 2.0f);
+//
+//glm::mat4 matRoot = glm::mat4(1.0);
+//float rot_x = 0;
+//float rot_y = 0;
+//
+//glm::vec3 lightPos = glm::vec3(5.0f, 5.0f, 10.0f);
+//glm::vec3 ViewPos = glm::vec3(0.0f, 0.0f, 5.0f);
+//
+//GLuint blinnShader;
+//GLuint phongShader;
 static Shader shader;
 
 glm::mat4 matModelRoot = glm::mat4(1.0);
 glm::mat4 matView = glm::mat4(1.0);
 glm::mat4 matProj = glm::ortho(-2.0f, 2.0f, -2.0f, 2.0f, -2.0f, 2.0f);
 
-glm::mat4 matRoot = glm::mat4(1.0);
-//float rot_x = 0;
-//float rot_y = 0;
-
-glm::vec3 lightPos = glm::vec3(5.0f, 5.0f, 10.0f);
-glm::vec3 viewPos = glm::vec3(0.0f, 0.0f, 5.0f);
+glm::vec3 lightPos = glm::vec3(5.0f, 10.0f, 20.0f);
+glm::vec3 ViewPos = glm::vec3(0.0f, 0.0f, 10.0f);
 
 GLuint blinnShader;
 GLuint phongShader;
@@ -98,15 +109,15 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         }
     }
 
-    glm::mat4 mat_scale = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
-    glm::mat4 mat_rot_y = glm::rotate(glm::radians(rot_y), glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::mat4 mat_rot_x = glm::rotate(glm::radians(rot_x), glm::vec3(1.0f, 0.0f, 0.0f));
+    //glm::mat4 mat_scale = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
+    //glm::mat4 mat_rot_y = glm::rotate(glm::radians(rot_y), glm::vec3(0.0f, 1.0f, 0.0f));
+    //glm::mat4 mat_rot_x = glm::rotate(glm::radians(rot_x), glm::vec3(1.0f, 0.0f, 0.0f));
 
-    //glm::mat4 mat_modelview = mat_rot_x * mat_rot_y * mat_scale;
-    matRoot = mat_rot_x*mat_rot_y*mat_scale;
+    ////glm::mat4 mat_modelview = mat_rot_x * mat_rot_y * mat_scale;
+    //matRoot = mat_rot_x*mat_rot_y*mat_scale;
 
     GLuint modelview_loc = glGetUniformLocation(shader.program, "modelview");
-    glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &matRoot[0][0]);
+    glUniformMatrix4fv(modelview_loc, 1, GL_FALSE, &matModelRoot[0][0]);
 }
 
 GLuint initShader(std::string pathVert, std::string pathFrag)
@@ -209,8 +220,6 @@ void drawTriangle()
 
 int main()
 {
-    // homogeneous coordinate
-    gl_Position = projection * view * model * vec4(aPos, 1.0);
 
  GLFWwindow *window;
 
@@ -241,7 +250,8 @@ int main()
 
 
     // for both VSCode and Visual Studio
-    initShader("shaders/colour.vert", "shaders/colour.frag");
+    //initShader("shaders/colour.frag", "shaders/colour.vert");
+    initShader("shaders/blinn.vert", "shaders/blinn.frag");
 
     // you are expected to add lines similar to the two lines to create the view and projection matrix
 
@@ -254,8 +264,8 @@ int main()
 
 
     // Meshes
-    std::shared_ptr<Mesh> cube = std::make_shared<Mesh>();
-    cube->init("models/cube.obj", shader.program);
+    //std::shared_ptr<Mesh> cube = std::make_shared<Mesh>();
+    //cube->init("models/cube.obj", shader.program);
 
     std::shared_ptr<Mesh> teapot = std::make_shared<Mesh>();
     teapot->init("models/teapot.obj", shader.program);
@@ -268,22 +278,23 @@ int main()
     //Nodes
     std::shared_ptr<Node> scene = std::make_shared<Node>();
     std::shared_ptr<Node> teapotNode = std::make_shared<Node>();
-    std::shared_ptr<Node> teapotNode2 = std::make_shared<Node>();
-    std::shared_ptr<Node> teapotNode3 = std::make_shared<Node>();
-    std::shared_ptr<Node> cubeNode = std::make_shared<Node>();
-    std::shared_ptr<Node> cubeNode2 = std::make_shared<Node>();
-    std::shared_ptr<Node> cubeNode3 = std::make_shared<Node>();
+    //std::shared_ptr<Node> teapotNode2 = std::make_shared<Node>();
+    //std::shared_ptr<Node> teapotNode3 = std::make_shared<Node>();
+    //std::shared_ptr<Node> cubeNode = std::make_shared<Node>();
+    //std::shared_ptr<Node> cubeNode2 = std::make_shared<Node>();
+    //std::shared_ptr<Node> cubeNode3 = std::make_shared<Node>();
     std::shared_ptr<Node> skullNode = std::make_shared<Node>();
 
 
 
     // Build the tree
     teapotNode->addMesh(teapot);
-    teapotNode2->addMesh(teapot);
-    teapotNode3->addMesh(teapot);
-    cubeNode->addMesh(cube);
-    cubeNode2->addMesh(cube);
-    cubeNode3->addMesh(cube);
+    //teapotNode2->addMesh(teapot);
+    //teapotNode3->addMesh(teapot);
+    //cubeNode->addMesh(cube);
+    //cubeNode2->addMesh(cube);
+    //cubeNode3->addMesh(cube);
+
     skullNode->addMesh(skull);
 
 
@@ -295,7 +306,7 @@ int main()
     //cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
 
     // Add the tree to the world space
-    scene->addChild(skullNode, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+    scene->addChild(teapotNode, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
 
     //initTriangle();
 
@@ -317,7 +328,23 @@ int main()
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        scene->draw(matRoot, matView, matProj);
+        glUseProgram(shader.program);
+
+        GLuint modelLoc = glGetUniformLocation(shader.program, "model");
+        GLuint viewLoc = glGetUniformLocation(shader.program, "view");
+        GLuint projLoc = glGetUniformLocation(shader.program, "projection");
+
+        GLuint lightLoc = glGetUniformLocation(shader.program, "lightPos");
+        GLuint viewPosLoc = glGetUniformLocation(shader.program, "viewPos");
+
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &matModelRoot[0][0]);
+        glUniformMatrix4fv(viewLoc, 1, GL_FALSE, &matView[0][0]);
+        glUniformMatrix4fv(projLoc, 1, GL_FALSE, &matProj[0][0]);
+
+        glUniform3fv(lightLoc, 1, &lightPos[0]);
+        glUniform3fv(viewPosLoc, 1, &ViewPos[0]);
+
+        scene->draw(matModelRoot, matView, matProj);
 
         glfwSwapBuffers(window);
     }
