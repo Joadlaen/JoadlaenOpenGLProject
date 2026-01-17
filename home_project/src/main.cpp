@@ -7,6 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 
 #include "shader.h"
@@ -112,7 +113,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     //glm::mat4 mat_scale = glm::scale(glm::vec3(0.5f, 0.5f, 0.5f));
     //glm::mat4 mat_rot_y = glm::rotate(glm::radians(rot_y), glm::vec3(0.0f, 1.0f, 0.0f));
     //glm::mat4 mat_rot_x = glm::rotate(glm::radians(rot_x), glm::vec3(1.0f, 0.0f, 0.0f));
-
+    //
     ////glm::mat4 mat_modelview = mat_rot_x * mat_rot_y * mat_scale;
     //matRoot = mat_rot_x*mat_rot_y*mat_scale;
 
@@ -127,6 +128,18 @@ GLuint initShader(std::string pathVert, std::string pathFrag)
     shader.compile();
     glUseProgram(shader.program);
     return shader.program;
+}
+
+void setLightPosition(glm::vec3 lightPos)
+{
+    GLuint lightpos_loc = glGetUniformLocation(shader.program, "lightPos");
+    glUniform3fv(lightpos_loc, 1, glm::value_ptr(lightPos));
+}
+
+void setViewPosition(glm::vec3 eyePos)
+{
+    GLuint viewpos_loc = glGetUniformLocation(shader.program, "viewPos");
+    glUniform3fv(viewpos_loc, 1, glm::value_ptr(eyePos));
 }
 
 
@@ -251,10 +264,17 @@ int main()
 
     // for both VSCode and Visual Studio
     //initShader("shaders/colour.frag", "shaders/colour.vert");
-    initShader("shaders/blinn.vert", "shaders/blinn.frag");
+    //initShader("shaders/blinn.vert", "shaders/phong.frag");
+
+    phongShader = initShader("shaders/blinn.vert", "shaders/phong.frag");
+    setLightPosition(lightPos);
+    setViewPosition(ViewPos);
+    blinnShader = initShader("shaders/blinn.vert", "shaders/blinn.frag");
+    setLightPosition(lightPos);
+    setViewPosition(ViewPos);
 
     // you are expected to add lines similar to the two lines to create the view and projection matrix
-
+    //
 // set the eye at (0, 0, 5), looking at the centre of the world
 // try to change the eye position
     matView = glm::lookAt(ViewPos, glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
@@ -264,14 +284,18 @@ int main()
 
 
     // Meshes
-    //std::shared_ptr<Mesh> cube = std::make_shared<Mesh>();
-    //cube->init("models/cube.obj", shader.program);
+    std::shared_ptr<Mesh> cube = std::make_shared<Mesh>();
+    cube->init("models/cube.obj", blinnShader);
 
     std::shared_ptr<Mesh> teapot = std::make_shared<Mesh>();
-    teapot->init("models/teapot.obj", shader.program);
+    teapot->init("models/teapot.obj", phongShader);
 
-    std::shared_ptr<Mesh> skull = std::make_shared<Mesh>();
-    skull->init("models/planet.obj", shader.program);
+    std::shared_ptr<Mesh> planet = std::make_shared<Mesh>();
+    planet->init("models/planet.obj", phongShader);
+
+    std::shared_ptr<Mesh> boat = std::make_shared<Mesh>();
+    boat->init("models/unseaworthy.obj", blinnShader);
+
 
 
 
@@ -280,10 +304,10 @@ int main()
     std::shared_ptr<Node> teapotNode = std::make_shared<Node>();
     //std::shared_ptr<Node> teapotNode2 = std::make_shared<Node>();
     //std::shared_ptr<Node> teapotNode3 = std::make_shared<Node>();
-    //std::shared_ptr<Node> cubeNode = std::make_shared<Node>();
-    //std::shared_ptr<Node> cubeNode2 = std::make_shared<Node>();
+    std::shared_ptr<Node> cubeNode = std::make_shared<Node>();
+    std::shared_ptr<Node> boatNode = std::make_shared<Node>();
     //std::shared_ptr<Node> cubeNode3 = std::make_shared<Node>();
-    std::shared_ptr<Node> skullNode = std::make_shared<Node>();
+    std::shared_ptr<Node> planetNode = std::make_shared<Node>();
 
 
 
@@ -291,22 +315,22 @@ int main()
     teapotNode->addMesh(teapot);
     //teapotNode2->addMesh(teapot);
     //teapotNode3->addMesh(teapot);
-    //cubeNode->addMesh(cube);
-    //cubeNode2->addMesh(cube);
+    cubeNode->addMesh(cube);
+    boatNode->addMesh(boat);
     //cubeNode3->addMesh(cube);
 
-    skullNode->addMesh(skull);
+    planetNode->addMesh(planet);
 
 
 
-  //  cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
-//    cubeNode->addChild(teapotNode2, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
-   // cubeNode->addChild(skullNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)), glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+    cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-2.0f, 1.0f, 0.0f)));
+    //cubeNode->addChild(planetNode, glm::translate(glm::vec3(2.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(boatNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)), glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
     //cubeNode->addChild(cubeNode2, glm::translate(glm::vec3(2.0f, 0.0f, 0.0f)));
     //cubeNode->addChild(cubeNode3, glm::translate(glm::vec3(-2.0f, 0.0f, 0.0f)));
 
     // Add the tree to the world space
-    scene->addChild(teapotNode, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
+    scene->addChild(cubeNode, glm::scale(glm::mat4(1.0f), glm::vec3(0.5f)));
 
     //initTriangle();
 

@@ -115,6 +115,7 @@ void Mesh::draw(glm::mat4 matModel, glm::mat4 matView, glm::mat4 matProj)
     // 1. Bind the correct shader program
     glUseProgram(shaderId);
 
+
     // 2. Set the appropriate uniforms for each shader
     // set model view transforms
     glm::mat4 mat_modelview = matView * matModel;
