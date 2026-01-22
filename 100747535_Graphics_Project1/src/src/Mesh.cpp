@@ -32,7 +32,8 @@ void Mesh::init(std::string path, GLuint id)
 void Mesh::loadModel(std::string path) 
 {
     Assimp::Importer importer;
-    const aiScene* scene = importer.ReadFile(path, aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs | aiProcess_CalcTangentSpace /* | aiProcess_GenNormals */ );
+    const aiScene* scene = importer.ReadFile(path, aiProcess_JoinIdenticalVertices | aiProcess_FlipUVs |aiProcess_Triangulate
+ | aiProcess_CalcTangentSpace /* | aiProcess_GenNormals */ );
     if (NULL != scene) {
         std::cout << "load model successful" << std::endl;
     } else {
