@@ -122,7 +122,7 @@ void Mesh::loadModel(std::string path)
 
     aiMesh* mesh = scene->mMeshes[0];
 
-    if (NULL != mesh && mesh->mMaterialIndex > 0)
+    if (mesh && mesh->mMaterialIndex >= 0)
     {
         std::string dir = "";
         const size_t last_slash_idx = path.rfind('/');
@@ -244,7 +244,7 @@ unsigned int Mesh::loadTextureAndBind(const char* path, const std::string& direc
     glGenTextures(1, &textureID);
 
     // we need flip for the bunny model
-    // stbi_set_flip_vertically_on_load(true); 
+    stbi_set_flip_vertically_on_load(true); 
 
     int width, height, nrComponents;
     unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrComponents, 0);
@@ -309,6 +309,10 @@ void Mesh::draw(glm::mat4 matModel, glm::mat4 matView, glm::mat4 matProj)
     // 1. Bind the correct shader program
     glUseProgram(shaderId);
 
+    GLint texLoc = glGetUniformLocation(shaderId, "textureMap");
+    if (texLoc >= 0)
+        glUniform1i(texLoc, 0);
+
     //std::cout << "shader: " << shaderId << std::endl;
 
     // 2. Set the appropriate uniforms for each shader
@@ -329,7 +333,7 @@ void Mesh::draw(glm::mat4 matModel, glm::mat4 matView, glm::mat4 matProj)
     glUniform1i(textureLoc, 0); 
 
     GLint hasTextureLoc = glGetUniformLocation(shaderId, "hasTexture");
-    glUniform1i(textureLoc, 0);
+    glUniform1i(hasTextureLoc, 0);
 
     if (! textures.empty())
     {

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <stb/stb_Image.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/glm.hpp>
@@ -366,13 +367,13 @@ int main()
     cubeNode->addMesh(cube, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(20.0f, 0.25f, 15.0f)));
     planetNode->addMesh(planet, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)));
     rocksNode->addMesh(rocks, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)));
-    bunnyNode->addMesh(bunny, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(10.0f, 10.0f, 10.0f)));
+    bunnyNode->addMesh(bunny, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(1.0f, 1.0f, 1.0f)));
 
 
     //boxNode->addMesh(box, glm::mat4(1.0), glm::rotate(glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
-    cubeNode->addChild(rocksNode, glm::translate(glm::vec3(-2, 1, 2)));
-    cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-1.2f, 0.5f, 0.0f)));
-    cubeNode->addChild(planetNode, glm::translate(glm::vec3(1.0f, 1.5f, 0.5f)));
+    //cubeNode->addChild(rocksNode, glm::translate(glm::vec3(-2, 1, 2)));
+    //cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-1.2f, 0.5f, 0.0f)));
+    //cubeNode->addChild(planetNode, glm::translate(glm::vec3(1.0f, 1.5f, 0.5f)));
     cubeNode->addChild(bunnyNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)), glm::rotate(glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
     
     //----------------------------------------------------

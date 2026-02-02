@@ -17,30 +17,33 @@ out vec4 colour_out;
 
 float ShadowCalculation(vec4 fragPosLightSpace)
 {
-    // perform perspective divide 
-    // result: normalised device coordinates (NDC)
-    // range [-1, 1] for x, y, z
+    // perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-    
-    // transform to [0,1] range
+
+    // transform to [0,1]
     projCoords = projCoords * 0.5 + 0.5;
-    
-    // get the depth value from the depth map 
-    // corresponding to the closest visible part to the light source 
-    float closeDepth = texture(shadowMap, projCoords.xy).r; 
-    // get depth of current fragment from light's perspective
+
+    // outside the shadow map -> no shadow
+    if (projCoords.x < 0.0 || projCoords.x > 1.0 ||
+        projCoords.y < 0.0 || projCoords.y > 1.0 ||
+        projCoords.z > 1.0)
+    {
+        return 0.0;
+    }
+
+    // depth from shadow map (closest surface to light)
+    float closestDepth = texture(shadowMap, projCoords.xy).r;
+
+    // current fragment depth
     float currentDepth = projCoords.z;
-    
-    // larger depth means far from the light source
-    float shadow = currentDepth > closeDepth  ? 1.0 : 0.0;
-    
-    // You can also use bias
-    // float bias = 0.005;
-    //float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
-    // float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);    
-    
-    return shadow;
+
+    // bias to prevent shadow acne
+    float bias = 0.005;
+
+    // shadow test
+    return currentDepth - bias > closestDepth ? 1.0 : 0.0;
 }
+
 
 void main()
 {   
