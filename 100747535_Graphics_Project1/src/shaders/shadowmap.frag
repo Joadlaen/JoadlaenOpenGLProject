@@ -15,7 +15,7 @@ uniform vec3 viewPos;
 
 out vec4 colour_out;
 
-float ShadowCalculation(vec4 fragPosLightSpace)
+float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir)
 {
     // perform perspective divide 
     // result: normalised device coordinates (NDC)
@@ -27,17 +27,17 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     
     // get the depth value from the depth map 
     // corresponding to the closest visible part to the light source 
-    float closeDepth = texture(shadowMap, projCoords.xy).r; 
+    float closestDepth = texture(shadowMap, projCoords.xy).r; 
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     
     // larger depth means far from the light source
-    float shadow = currentDepth > closeDepth  ? 1.0 : 0.0;
+    //float shadow = currentDepth > closestDepth  ? 1.0 : 0.0;
     
     // You can also use bias
-    // float bias = 0.005;
-    //float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
-    // float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);    
+    float bias = max(0.05 * (1.0 - dot(normal, lightDir)), 0.005);  
+    float shadow = currentDepth - bias > closestDepth  ? 1.0 : 0.0;
+      
     
     return shadow;
 }
@@ -86,7 +86,7 @@ void main()
     vec3 specular = vec3(0.3) * spec;   
     
     // calculate shadow using the light space position
-    float shadow = ShadowCalculation(fragPosLightSpace);
+    float shadow = ShadowCalculation(fragPosLightSpace, norm, lightDir);
     vec3 lighting = ambient + (1.0 - shadow) * (diffuse + specular);    
     
     colour_out = vec4(lighting, 1.0);
