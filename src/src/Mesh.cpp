@@ -122,7 +122,9 @@ void Mesh::loadModel(std::string path)
 
     aiMesh* mesh = scene->mMeshes[0];
 
-    if (NULL != mesh && mesh->mMaterialIndex > 0)
+    //if (NULL != mesh && mesh->mMaterialIndex > 0)
+    if (mesh && mesh->mMaterialIndex < scene->mNumMaterials)
+
     {
         std::string dir = "";
         const size_t last_slash_idx = path.rfind('/');
@@ -155,62 +157,113 @@ void Mesh::loadModel(std::string path)
     std::cout << "numIndex: " << indices.size() << std::endl;
 }
 
+
 void Mesh::initBuffer()
 {
-    // create vertex buffer
-    GLuint vao;
+    GLuint vao, vbo, ebo;
+
     glGenVertexArrays(1, &vao);
-    GLuint vertBufID;
-    glGenBuffers(1, &vertBufID);
-    glBindBuffer(GL_ARRAY_BUFFER, vertBufID);
-    GLuint idxBufID;
-    glGenBuffers(1, &idxBufID);
-    
-    // remember VAO
     glBindVertexArray(vao);
-    buffers.push_back(vao);
-    
-    std::cout << "vertBufId: " << vertBufID << std::endl;
 
-    buffers.push_back(vertBufID);
+    glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER,
+        vertices.size() * sizeof(Vertex),
+        vertices.data(),
+        GL_STATIC_DRAW);
 
-    // set buffer data to triangle vertex and setting vertex attributes
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0] /*vertices.data()*/, GL_STATIC_DRAW);
+    glGenBuffers(1, &ebo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER,
+        indices.size() * sizeof(GLuint),
+        indices.data(),
+        GL_STATIC_DRAW);
+
+    // position
     glEnableVertexAttribArray(0);
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE,
+        sizeof(Vertex), (void*)0);
 
-    // set normal attributes
+    // normal
     glEnableVertexAttribArray(1);
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void *) (sizeof(float) * 3));
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) (sizeof(float) * 3));
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
+        sizeof(Vertex), (void*)(offsetof(Vertex, normal)));
 
-    // LabA07: Adding texture coord attribute
-    // vertex texture coords
+    // texcoord
     glEnableVertexAttribArray(2);
-    // the second parameter: 2 coordinates (tx, ty) per texture coord	
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
-
-
-    // tangent space
-    //glEnableVertexAttribArray(3);
-    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
-
-    //glEnableVertexAttribArray(4);
-    //glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
-
-
-    // bind index buffer
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBufID);
-
-    std::cout << "idxBufId: " << idxBufID << std::endl;
-    buffers.push_back(idxBufID);
-
-    // set buffer data for triangle index
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE,
+        sizeof(Vertex), (void*)(offsetof(Vertex, texCoord)));
 
     glBindVertexArray(0);
+
+    buffers.clear();
+    buffers.push_back(vao);
+    buffers.push_back(vbo);
+    buffers.push_back(ebo);
 }
+
+//void Mesh::initBuffer()
+//{
+//    // create vertex buffer
+//    GLuint vao;
+//    GLuint vertBufID;
+//    GLuint idxBufID;
+//    glGenBuffers(1, &idxBufID);
+//    
+//    // remember VAO
+//    buffers.push_back(vao);
+//
+//    glGenVertexArrays(1, &vao);
+//    glBindVertexArray(vao);
+//
+//    glGenBuffers(1, &vertBufID);
+//    glBindBuffer(GL_ARRAY_BUFFER, vertBufID);
+//
+//    glGenBuffers(1, &idxBufID);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBufID);
+//
+//    
+//    std::cout << "vertBufId: " << vertBufID << std::endl;
+//
+//    buffers.push_back(vertBufID);
+//
+//    // set buffer data to triangle vertex and setting vertex attributes
+//    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0] /*vertices.data()*/, GL_STATIC_DRAW);
+//    glEnableVertexAttribArray(0);
+//    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, 0);
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+//
+//    // set normal attributes
+//    glEnableVertexAttribArray(1);
+//    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, (void *) (sizeof(float) * 3));
+//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void *) (sizeof(float) * 3));
+//
+//    // LabA07: Adding texture coord attribute
+//    // vertex texture coords
+//    glEnableVertexAttribArray(2);
+//    // the second parameter: 2 coordinates (tx, ty) per texture coord	
+//    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoord));
+//
+//
+//    // tangent space
+//    //glEnableVertexAttribArray(3);
+//    //glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+//
+//    //glEnableVertexAttribArray(4);
+//    //glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
+//
+//
+//    // bind index buffer
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, idxBufID);
+//
+//    std::cout << "idxBufId: " << idxBufID << std::endl;
+//    buffers.push_back(idxBufID);
+//
+//    // set buffer data for triangle index
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), indices.data(), GL_STATIC_DRAW);
+//
+//    glBindVertexArray(0);
+//}
 
 void Mesh::setShaderId(GLuint sid) {
     shaderId = sid;
@@ -302,61 +355,106 @@ Material Mesh::loadMaterial(aiMaterial* mat)
 
 
 
-// all drawings come here
+//// all drawings come here
+//void Mesh::draw(glm::mat4 matModel, glm::mat4 matView, glm::mat4 matProj)
+//{
+//
+//    // 1. Bind the correct shader program
+//    glUseProgram(shaderId);
+//
+//    //std::cout << "shader: " << shaderId << std::endl;
+//
+//    // 2. Set the appropriate uniforms for each shader
+//    // set the modelling transform  
+//    GLuint model_loc = glGetUniformLocation(shaderId, "model" );
+//    glUniformMatrix4fv(model_loc, 1, GL_FALSE, &matModel[0][0]);
+//
+//    // set view matrix
+//    GLuint view_loc = glGetUniformLocation(shaderId, "view" );
+//    glUniformMatrix4fv(view_loc, 1, GL_FALSE, &matView[0][0]);
+//
+//    // set projection transforms
+//    glm::mat4 mat_projection = matProj;
+//    GLuint projection_loc = glGetUniformLocation( shaderId, "projection" );
+//    glUniformMatrix4fv(projection_loc, 1, GL_FALSE, &mat_projection[0][0]);
+//
+//    GLint textureLoc = glGetUniformLocation(shaderId, "textureMap");
+//    glUniform1i(textureLoc, 0); 
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, textures[0].id);
+//
+//    glUniform1i(glGetUniformLocation(shaderId, "textureMap"), 0);
+//
+//
+//    GLint hasTextureLoc = glGetUniformLocation(shaderId, "hasTexture");
+//    glUniform1i(hasTextureLoc, 0);
+//    glUniform1i(glGetUniformLocation(shaderId, "hasTexture"),
+//        !textures.empty());
+//
+//
+//    if (! textures.empty())
+//    {
+//
+//            glActiveTexture(GL_TEXTURE0);
+//            glBindTexture(GL_TEXTURE_2D, textures[0].id);
+//
+//
+//
+//        glUniform1i(hasTextureLoc, GL_TRUE);
+//    }
+//    else {
+//        glUniform1i(hasTextureLoc, GL_FALSE);
+//    }
+//
+//
+//    if (bShadow)
+//    {
+//        GLint loc = glGetUniformLocation(shaderId, "depthMap");
+//        glUniform1i(loc, 1); 
+//       
+//    }
+//
+//    // 3. Bind the corresponding model's VAO
+//    glBindVertexArray(buffers[0]);
+//
+//    // 4. Draw the model
+//    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+//
+//    // 5. Unset vertex buffer
+//    glBindVertexArray(0);
+//}
 void Mesh::draw(glm::mat4 matModel, glm::mat4 matView, glm::mat4 matProj)
 {
-
-    // 1. Bind the correct shader program
     glUseProgram(shaderId);
 
-    //std::cout << "shader: " << shaderId << std::endl;
-
-    // 2. Set the appropriate uniforms for each shader
-    // set the modelling transform  
-    GLuint model_loc = glGetUniformLocation(shaderId, "model" );
-    glUniformMatrix4fv(model_loc, 1, GL_FALSE, &matModel[0][0]);
-
-    // set view matrix
-    GLuint view_loc = glGetUniformLocation(shaderId, "view" );
-    glUniformMatrix4fv(view_loc, 1, GL_FALSE, &matView[0][0]);
-
-    // set projection transforms
-    glm::mat4 mat_projection = matProj;
-    GLuint projection_loc = glGetUniformLocation( shaderId, "projection" );
-    glUniformMatrix4fv(projection_loc, 1, GL_FALSE, &mat_projection[0][0]);
-
-    GLint textureLoc = glGetUniformLocation(shaderId, "textureMap");
-    glUniform1i(textureLoc, 0); 
+    glUniformMatrix4fv(glGetUniformLocation(shaderId, "model"),
+        1, GL_FALSE, &matModel[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shaderId, "view"),
+        1, GL_FALSE, &matView[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(shaderId, "projection"),
+        1, GL_FALSE, &matProj[0][0]);
 
     GLint hasTextureLoc = glGetUniformLocation(shaderId, "hasTexture");
-    glUniform1i(hasTextureLoc, 0);
-
-    if (! textures.empty())
+    if (hasTextureLoc != -1)
     {
-        // Texture mapping, we only deal with one texture unit    
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, textures[0].id);
+        bool hasTex = !textures.empty();
+        glUniform1i(hasTextureLoc, hasTex);
 
-        glUniform1i(hasTextureLoc, GL_TRUE);
-    }
-    else {
-        glUniform1i(hasTextureLoc, GL_FALSE);
-    }
+        if (hasTex)
+        {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, textures[0].id);
 
-
-    //if (bShadow)
-    {
-        GLint loc = glGetUniformLocation(shaderId, "depthMap");
-        glUniform1i(loc, 1); 
-       
+            GLint texLoc = glGetUniformLocation(shaderId, "textureMap");
+            if (texLoc != -1)
+                glUniform1i(texLoc, 0);
+        }
     }
 
-    // 3. Bind the corresponding model's VAO
     glBindVertexArray(buffers[0]);
-
-    // 4. Draw the model
-    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-
-    // 5. Unset vertex buffer
+    glDrawElements(GL_TRIANGLES,
+        static_cast<GLsizei>(indices.size()),
+        GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }
+

@@ -72,6 +72,7 @@ void initRenderToDepthTexture()
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, depthTex);
 
+
     // Render to Texture
     // Create and set up the FBO
     glGenFramebuffers(1, &shadowFBO);
@@ -376,14 +377,14 @@ int main()
     cubeNode->addMesh(cube, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(20.0f, 0.25f, 15.0f)));
     planetNode->addMesh(planet, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(0.5f, 0.5f, 0.5f)));
     rocksNode->addMesh(rocks, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(5.0f, 5.0f, 5.0f)));
-    bunnyNode->addMesh(bunny, glm::mat4(1.0), glm::mat4(1.0), glm::scale(glm::vec3(10.0f, 10.0f, 10.0f)));
+    bunnyNode->addMesh(bunny, glm::mat4(1.0), glm::mat4(1.0));
 
 
     //boxNode->addMesh(box, glm::mat4(1.0), glm::rotate(glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
     cubeNode->addChild(rocksNode, glm::translate(glm::vec3(-2, 1, 2)));
     cubeNode->addChild(teapotNode, glm::translate(glm::vec3(-1.2f, 0.5f, 0.0f)));
     cubeNode->addChild(planetNode, glm::translate(glm::vec3(1.0f, 1.5f, 0.5f)));
-    cubeNode->addChild(bunnyNode, glm::translate(glm::vec3(0.0f, 1.0f, 0.0f)), glm::rotate(glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
+    cubeNode->addChild(bunnyNode, glm::translate(glm::vec3(0.0f, 5.0f, 0.0f)), glm::rotate(glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f)));
     
     //----------------------------------------------------
     // Add the tree to the world space
@@ -411,7 +412,7 @@ int main()
         if (! bDepth)
             glBindFramebuffer(GL_FRAMEBUFFER, shadowFBO);
         
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+        glClear(GL_DEPTH_BUFFER_BIT);
 
         glViewport(0,0,shadowMapWidth, shadowMapHeight);
 
@@ -434,7 +435,7 @@ int main()
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glViewport(0, 0, width, height);
 
-            scene->setShaderId(shadowShader);
+            scene->setShaderId(texblinnShader);
             scene->draw(matModelRoot, matView, matProj);
         }
 

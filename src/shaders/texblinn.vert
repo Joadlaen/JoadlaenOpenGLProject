@@ -22,12 +22,9 @@ void main()
     
     fragPos = vec3(model * vec4(aPos, 1.0));
 
-    // convert 4x4 modelling matrix to 3x3
-    mat3 normalMatrix = mat3(model);
-    
-    // output normal to the fragment shader
-    // !! only correct for rigid body transforms
-    normal = normalMatrix * aNormal;
+mat3 normalMatrix = transpose(inverse(mat3(model)));
+normal = normalize(normalMatrix * aNormal);
+
 
     texCoord = aTexCoord;
 }
